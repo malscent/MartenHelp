@@ -34,11 +34,11 @@ namespace MartenHelp
         {
             if (ProjectionTypes == null | ProjectionTypes.Length == 0)
             {
-                ProjectionTypes = GetEventTypes(typeof(UnitOfWork).GetTypeInfo().Assembly, "tx.DataAccessLayer.Projections");
+                ProjectionTypes = GetEventTypes(typeof(UnitOfWork).GetTypeInfo().Assembly, "MartenHelp.Projections");
             }
             if (EventTypes == null || EventTypes.Length == 0)
             {
-                EventTypes = GetEventTypes(typeof(UnitOfWork).GetTypeInfo().Assembly, "tx.DataAccessLayer.Events");
+                EventTypes = GetEventTypes(typeof(UnitOfWork).GetTypeInfo().Assembly, "MartenHelp.Events");
             }
             var autoCreate = (env == EnvironmentType.dev) ? AutoCreate.All : AutoCreate.CreateOrUpdate;
             IDocumentStore _store = DocumentStore.For(_ =>
@@ -57,7 +57,7 @@ namespace MartenHelp
             ProjectionTypes.ToList().ForEach(Projection =>
             {
                 // Only Register if it is not abstract, is a class, and implements IProjection
-                if (!Projection.GetTypeInfo().IsAbstract && Projection.GetTypeInfo().IsClass && typeof(IProjection).IsAssignableFrom(Projection))
+                if (!Projection.GetTypeInfo().IsAbstract && Projection.GetTypeInfo().IsClass)
                 {
                     MethodInfo genericMethod = method.MakeGenericMethod(Projection);
                     genericMethod.Invoke(_store.Events.InlineProjections, null);

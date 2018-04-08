@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MartenHelp
 {
-    public class UnitOfWork : IUnitOfWork 
+    public class UnitOfWork : IUnitOfWork, IDisposable 
     {
         private IDocumentStore _store;
 
@@ -42,7 +42,7 @@ namespace MartenHelp
             return this.session.Connection != null;
         }
 
-        ~UnitOfWork()
+        public void Dispose()
         {
             EndSession();
         }
