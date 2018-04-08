@@ -1,13 +1,13 @@
-* Marten UnitOfWork Example for System.ObjectDisposedException: Cannot access a disposed object.
+# Marten UnitOfWork Example for System.ObjectDisposedException: Cannot access a disposed object
 
-Run 
+Run below command to see failure result.
+
 ``` bash
 dotnet test --filter DisplayName~FailingTests
 ```
-to see failure result.
 
-Run
+Run to see proper usage of unit of work.
+
 ``` bash
 dotnet test --filter DisplayName~SucceedTests
 ```
-To see proper usage of unit of work.
