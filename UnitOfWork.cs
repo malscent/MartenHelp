@@ -14,7 +14,6 @@ namespace MartenHelp
         private IDocumentStore _store;
 
         private IDocumentSession session;
-        private IQuerySession querySession;
 
         #region Constructors
        
@@ -38,7 +37,6 @@ namespace MartenHelp
         private Boolean StartSession()
         {
             this.session = _store.LightweightSession();
-            this.querySession = _store.QuerySession();
             return this.session.Connection != null;
         }
 
@@ -52,9 +50,6 @@ namespace MartenHelp
             if (this.session != null)
             {
                 this.session.Dispose();
-            }
-            if (this.querySession != null) {
-                this.querySession.Dispose();
             }
             return true;
         }
@@ -78,9 +73,7 @@ namespace MartenHelp
 
         public IQueryable<T> CreateQueryable<T>() where T : class, new()
         {
-            if (querySession == null || querySession.Connection == null)
-                querySession = _store.LightweightSession();
-            return querySession.Query<T>();
+            return session.Query<T>();
         }
 
         public async Task<Guid> CreateNewStream<T>() where T: class, new()
